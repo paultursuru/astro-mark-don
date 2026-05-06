@@ -1,6 +1,6 @@
 {
   "name": "astro-mark-don",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Astro integration that generates a .md version of every page at build time, optimized for LLM crawlers.",
   "type": "module",
   "main": "index.mjs",

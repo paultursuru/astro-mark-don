@@ -1,6 +1,8 @@
-# astro-markdown-export
+# astro-mark-don
 
 An Astro integration that generates a `.md` version of every static page at build time — optimized for LLM crawlers and AI agents.
+
+Part of the **mark-don** family — see also [mark-don](https://github.com/paultursuru/mark-don), the original Ruby gem that inspired this integration.
 
 ## Why
 
@@ -9,7 +11,7 @@ LLMs consume your pages as raw text. A clean markdown file is cheaper (fewer tok
 ## Install
 
 ```bash
-npm install astro-markdown-export
+npm install astro-mark-don
 ```
 
 ## Usage
@@ -17,11 +19,11 @@ npm install astro-markdown-export
 ```js
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
-import markdownExport from 'astro-markdown-export';
+import markDon from 'astro-mark-don';
 
 export default defineConfig({
   integrations: [
-    markdownExport()
+    markDon()
   ]
 });
 ```
@@ -44,7 +46,7 @@ dist/
 ## Options
 
 ```js
-markdownExport({
+markDon({
   // Pages to skip (matched against pathname)
   exclude: ['404.html', 'drawing-board'],
 

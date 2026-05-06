@@ -1,6 +1,6 @@
 {
-  "name": "astro-markdown-export",
-  "version": "0.2.2",
+  "name": "astro-mark-don",
+  "version": "0.1.0",
   "description": "Astro integration that generates a .md version of every page at build time, optimized for LLM crawlers.",
   "type": "module",
   "main": "index.mjs",
@@ -22,11 +22,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/paultursuru/astro-markdown-export"
+    "url": "https://github.com/paultursuru/astro-mark-don"
   },
-  "homepage": "https://github.com/paultursuru/astro-markdown-export#readme",
+  "homepage": "https://github.com/paultursuru/astro-mark-don#readme",
   "bugs": {
-    "url": "https://github.com/paultursuru/astro-markdown-export/issues"
+    "url": "https://github.com/paultursuru/astro-mark-don/issues"
   },
   "peerDependencies": {
     "astro": "^4.0.0 || ^5.0.0"

@@ -1,0 +1,37 @@
+{
+  "name": "astro-markdown-export",
+  "version": "0.1.0",
+  "description": "Astro integration that generates a .md version of every page at build time, optimized for LLM crawlers.",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "files": [
+    "index.mjs"
+  ],
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "markdown",
+    "llm",
+    "seo",
+    "static-site"
+  ],
+  "author": "Paul Lahana <paul.lahana@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paultursuru/astro-markdown-export"
+  },
+  "homepage": "https://github.com/paultursuru/astro-markdown-export#readme",
+  "bugs": {
+    "url": "https://github.com/paultursuru/astro-markdown-export/issues"
+  },
+  "peerDependencies": {
+    "astro": "^4.0.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "turndown": "^7.2.4"
+  }
+}

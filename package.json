@@ -7,8 +7,10 @@
   "exports": {
     ".": "./index.mjs"
   },
+  "types": "index.d.ts",
   "files": [
-    "index.mjs"
+    "index.mjs",
+    "index.d.ts"
   ],
   "keywords": [
     "astro",

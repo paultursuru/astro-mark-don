@@ -93,6 +93,51 @@ const mdUrl = new URL(mdPath, Astro.site).href;
 </body>
 ```
 
+## Serving `.md` files with the correct Content-Type
+
+By default, some hosts serve `.md` files as `application/octet-stream`, which triggers a file download instead of displaying the content. This doesn't affect LLMs that fetch URLs directly via HTTP — they read the body regardless — but it can break browser-based tools or headless browser crawlers.
+
+No action is needed unless you observe this issue. The examples below are starting points — they haven't all been tested on every platform version or configuration. If something doesn't work, check your host's documentation for MIME type or response header configuration.
+
+**Netlify** — add a `_headers` file at the root of your `dist/` or `public/` folder:
+
+```
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+```
+
+**Vercel** — add to `vercel.json`:
+
+```json
+{
+  "headers": [
+    {
+      "source": "/(.*)\\.md",
+      "headers": [{ "key": "Content-Type", "value": "text/markdown; charset=utf-8" }]
+    }
+  ]
+}
+```
+
+**fly.io / Generic nginx** | **_tested and approved_** - add a `location` block for `.md` files inside your `server` block. This avoids conflicts with the existing `include /etc/nginx/mime.types;` directive:
+
+```nginx
+http {
+  # ... other http blocks ...
+  server {
+    # ... other server blocks ...
+    location ~* \.md$ {
+        default_type "text/markdown; charset=utf-8";
+      }
+    }
+  }
+}
+```
+
+Do not add a top-level `types {}` block alongside `include /etc/nginx/mime.types;` — the two conflict and will break your server config.
+
+For other platforms, the fix is equivalent: map the `.md` extension to `text/markdown` or `text/plain` in the server's MIME type configuration.
+
 ## How it works
 
 Uses the `astro:build:done` hook to read each generated HTML file and convert it to markdown via [Turndown](https://github.com/mixmark-io/turndown). Scripts, styles, and noscript tags are stripped. The result is written next to the HTML file with a YAML frontmatter header.

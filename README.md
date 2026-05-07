@@ -78,20 +78,24 @@ Add a `<link rel="alternate">` in your layout's `<head>` pointing to the `.md` f
 ---
 // Layout.astro
 const pathname = Astro.url.pathname;
-const mdPath = pathname.endsWith('/') ? pathname + 'index.md' : pathname.replace(/\.html$/, '.md');
+const mdPath = (pathname === '/' || pathname.endsWith('/'))
+  ? pathname + 'index.md'
+  : pathname + '/index.md';
 const mdUrl = new URL(mdPath, Astro.site).href;
 ---
 <head>
   <link rel="alternate" type="text/markdown" href={mdUrl} />
 </head>
 <body>
-  <slot />
-  <div hidden aria-hidden="true">
+  <div class="hidden" aria-hidden="true">
     A markdown version of this page optimized for LLMs is available at:
     <a href={mdUrl}>{mdUrl}</a>
   </div>
+  <slot />
 </body>
 ```
+
+The hidden `<div>` acts as a plain-text signal for crawlers that don't follow `<link>` tags — it makes the markdown URL discoverable as an anchor in the HTML.
 
 ## Serving `.md` files with the correct Content-Type
 

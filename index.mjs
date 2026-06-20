@@ -87,8 +87,15 @@ export default function astroMarkdownExport(options = {}) {
             const htmlPath = path.join(dir.pathname, htmlFile);
             const html = await fs.readFile(htmlPath, 'utf-8');
             const markdown = htmlToMarkdown(html, pagePath, turndownService, cleanupFn);
-            const mdPath = htmlPath.replace('.html', '.md');
 
+            // Mirror the page path with a .md extension: /coucou -> /coucou.md
+            // (the root stays /index.md). Keeps the markdown URL identical to the
+            // page URL instead of the /coucou/index.md form.
+            const normalizedPath = pagePath.replace(/\/$/, '');
+            const mdFile = normalizedPath === '' ? 'index.md' : `${normalizedPath}.md`;
+            const mdPath = path.join(dir.pathname, mdFile);
+
+            await fs.mkdir(path.dirname(mdPath), { recursive: true });
             await fs.writeFile(mdPath, markdown, 'utf-8');
             console.log(`  ✓ Generated: ${mdPath.replace(dir.pathname, '')}`);
           } catch (error) {

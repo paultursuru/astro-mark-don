@@ -6,7 +6,7 @@ Part of the **mark-don** family — see also [mark-don](https://github.com/pault
 
 ## Why
 
-LLMs consume your pages as raw text. A clean markdown file is cheaper (fewer tokens), easier to parse, and more accurate than a noisy HTML-to-text conversion. This integration does the conversion once at build time so every page has a `/path/index.md` sibling ready to serve.
+LLMs consume your pages as raw text. A clean markdown file is cheaper (fewer tokens), easier to parse, and more accurate than a noisy HTML-to-text conversion. This integration does the conversion once at build time so every page has a `.md` companion at a matching URL ready to serve.
 
 ## Install
 
@@ -28,19 +28,19 @@ export default defineConfig({
 });
 ```
 
-Each page in your `dist/` folder will get a `.md` sibling:
+Each page in your `dist/` folder gets a `.md` file at a URL that mirrors the page itself. The root becomes `index.md`, and every other page becomes `<page>.md` (instead of `<page>/index.md`), so the markdown URL is identical to the page URL with a `.md` suffix:
 
 ```
 dist/
 ├── index.html
-├── index.md          ← generated
+├── index.md             ← generated  (/ → /index.md)
 ├── about/
-│   ├── index.html
-│   └── index.md      ← generated
+│   └── index.html
+├── about.md             ← generated  (/about → /about.md)
 └── projects/
-    └── my-project/
-        ├── index.html
-        └── index.md  ← generated
+    ├── my-project/
+    │   └── index.html
+    └── my-project.md    ← generated  (/projects/my-project → /projects/my-project.md)
 ```
 
 ## Options
@@ -78,9 +78,8 @@ Add a `<link rel="alternate">` in your layout's `<head>` pointing to the `.md` f
 ---
 // Layout.astro
 const pathname = Astro.url.pathname;
-const mdPath = (pathname === '/' || pathname.endsWith('/'))
-  ? pathname + 'index.md'
-  : pathname + '/index.md';
+const normalized = pathname.replace(/\/$/, '');
+const mdPath = normalized === '' ? '/index.md' : `${normalized}.md`;
 const mdUrl = new URL(mdPath, Astro.site).href;
 ---
 <head>
@@ -144,7 +143,7 @@ For other platforms, the fix is equivalent: map the `.md` extension to `text/mar
 
 ## How it works
 
-Uses the `astro:build:done` hook to read each generated HTML file and convert it to markdown via [Turndown](https://github.com/mixmark-io/turndown). Scripts, styles, and noscript tags are stripped. The result is written next to the HTML file with a YAML frontmatter header.
+Uses the `astro:build:done` hook to read each generated HTML file and convert it to markdown via [Turndown](https://github.com/mixmark-io/turndown). Scripts, styles, and noscript tags are stripped. The result is written to a `.md` file whose URL mirrors the page (`/about` → `/about.md`, `/` → `/index.md`), with a YAML frontmatter header.
 
 ## License
 

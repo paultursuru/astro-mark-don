@@ -1,22 +1,29 @@
 {
   "name": "astro-mark-don",
-  "version": "0.1.2",
-  "description": "Astro integration that generates a .md version of every page at build time, optimized for LLM crawlers.",
+  "version": "0.2.0",
+  "description": "Astro integration that generates a .md version of every page and an optional llms.txt at build time, optimized for LLM crawlers.",
   "type": "module",
   "main": "index.mjs",
   "exports": {
-    ".": "./index.mjs"
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.mjs"
+    }
   },
   "types": "index.d.ts",
   "files": [
     "index.mjs",
     "index.d.ts"
   ],
+  "scripts": {
+    "test": "node --test"
+  },
   "keywords": [
     "astro",
     "astro-integration",
     "markdown",
     "llm",
+    "llms.txt",
     "seo",
     "static-site"
   ],
@@ -31,9 +38,10 @@
     "url": "https://github.com/paultursuru/astro-mark-don/issues"
   },
   "peerDependencies": {
-    "astro": "^4.0.0 || ^5.0.0"
+    "astro": "^4.0.0 || ^5.0.0 || ^6.0.0"
   },
   "dependencies": {
+    "@mixmark-io/domino": "^2.2.0",
     "turndown": "^7.2.4"
   }
 }
